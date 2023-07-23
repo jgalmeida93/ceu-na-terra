@@ -1,51 +1,45 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { useEffect, useRef } from 'react'
-import Bridge from '../components/Icons/Bridge'
-import Logo from '../components/Icons/Logo'
-import Modal from '../components/Modal'
-import cloudinary from '../utils/cloudinary'
-import getBase64ImageUrl from '../utils/generateBlurPlaceholder'
-import type { ImageProps } from '../utils/types'
-import { useLastViewedPhoto } from '../utils/useLastViewedPhoto'
+import type { NextPage } from "next";
+import Head from "next/head";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect, useRef } from "react";
+import Bridge from "../components/Icons/Background";
+import Logo from "../components/Icons/Logo";
+import Modal from "../components/Modal";
+import cloudinary from "../utils/cloudinary";
+import getBase64ImageUrl from "../utils/generateBlurPlaceholder";
+import type { ImageProps } from "../utils/types";
+import { useLastViewedPhoto } from "../utils/useLastViewedPhoto";
+import IconInstagram from "../components/Icons/Instagram";
+import IconCalendarDate from "../components/Icons/Calendar";
 
 const Home: NextPage = ({ images }: { images: ImageProps[] }) => {
-  const router = useRouter()
-  const { photoId } = router.query
-  const [lastViewedPhoto, setLastViewedPhoto] = useLastViewedPhoto()
+  const router = useRouter();
+  const { photoId } = router.query;
+  const [lastViewedPhoto, setLastViewedPhoto] = useLastViewedPhoto();
 
-  const lastViewedPhotoRef = useRef<HTMLAnchorElement>(null)
+  const lastViewedPhotoRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
     // This effect keeps track of the last viewed photo in the modal to keep the index page in sync when the user navigates back
     if (lastViewedPhoto && !photoId) {
-      lastViewedPhotoRef.current.scrollIntoView({ block: 'center' })
-      setLastViewedPhoto(null)
+      lastViewedPhotoRef.current.scrollIntoView({ block: "center" });
+      setLastViewedPhoto(null);
     }
-  }, [photoId, lastViewedPhoto, setLastViewedPhoto])
+  }, [photoId, lastViewedPhoto, setLastViewedPhoto]);
 
   return (
     <>
       <Head>
-        <title>Next.js Conf 2022 Photos</title>
-        <meta
-          property="og:image"
-          content="https://nextjsconf-pics.vercel.app/og-image.png"
-        />
-        <meta
-          name="twitter:image"
-          content="https://nextjsconf-pics.vercel.app/og-image.png"
-        />
+        <title>Ministério Céu na terra</title>
       </Head>
       <main className="mx-auto max-w-[1960px] p-4">
         {photoId && (
           <Modal
             images={images}
             onClose={() => {
-              setLastViewedPhoto(photoId)
+              setLastViewedPhoto(photoId);
             }}
           />
         )}
@@ -55,24 +49,34 @@ const Home: NextPage = ({ images }: { images: ImageProps[] }) => {
               <span className="flex max-h-full max-w-full items-center justify-center">
                 <Bridge />
               </span>
-              <span className="absolute left-0 right-0 bottom-0 h-[400px] bg-gradient-to-b from-black/0 via-black to-black"></span>
+              <span className="absolute bottom-0 left-0 right-0 h-[400px] bg-gradient-to-b from-black/0 via-black to-black"></span>
             </div>
             <Logo />
-            <h1 className="mt-8 mb-4 text-base font-bold uppercase tracking-widest">
-              2022 Event Photos
+            <h1 className="mb-4 mt-8 text-base font-bold uppercase tracking-widest">
+              Ministério Céu na Terra
             </h1>
             <p className="max-w-[40ch] text-white/75 sm:max-w-[32ch]">
-              Our incredible Next.js community got together in San Francisco for
-              our first ever in-person conference!
+              O Senhor estabeleceu o seu trono nos céus, e como rei domina sobre
+              tudo o que existe. Salmos 103:19
             </p>
-            <a
-              className="pointer z-10 mt-6 rounded-lg border border-white bg-white px-3 py-2 text-sm font-semibold text-black transition hover:bg-white/10 hover:text-white md:mt-4"
-              href="https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-cloudinary&project-name=nextjs-image-gallery&repository-name=with-cloudinary&env=NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,CLOUDINARY_API_KEY,CLOUDINARY_API_SECRET,CLOUDINARY_FOLDER&envDescription=API%20Keys%20from%20Cloudinary%20needed%20to%20run%20this%20application"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Clone and Deploy
-            </a>
+            <div className="flex gap-5">
+              <a
+                className="pointer z-10 mt-6 flex items-center gap-2 rounded-lg border border-white bg-white px-3 py-1 text-sm font-semibold text-black transition hover:bg-white/10 hover:text-white md:mt-4"
+                href="https://www.instagram.com/ceunaterra.ministerio/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <IconInstagram /> Instagram
+              </a>
+              <a
+                className="pointer z-10 mt-6 flex items-center gap-1 rounded-lg border border-white bg-white px-5 py-2 text-sm font-semibold text-black transition hover:bg-white/10 hover:text-white md:mt-4"
+                href="https://wa.me/554399537307?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20a%20disponibilidade%20de%20agenda%20do%20minist%C3%A9rio%20c%C3%A9u%20na%20terra"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <IconCalendarDate /> Agenda
+              </a>
+            </div>
           </div>
           {images.map(({ id, public_id, format, blurDataUrl }) => (
             <Link
@@ -86,7 +90,7 @@ const Home: NextPage = ({ images }: { images: ImageProps[] }) => {
               <Image
                 alt="Next.js Conf photo"
                 className="transform rounded-lg brightness-90 transition will-change-auto group-hover:brightness-110"
-                style={{ transform: 'translate3d(0, 0, 0)' }}
+                style={{ transform: "translate3d(0, 0, 0)" }}
                 placeholder="blur"
                 blurDataURL={blurDataUrl}
                 src={`https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_scale,w_720/${public_id}.${format}`}
@@ -102,50 +106,31 @@ const Home: NextPage = ({ images }: { images: ImageProps[] }) => {
         </div>
       </main>
       <footer className="p-6 text-center text-white/80 sm:p-12">
-        Thank you to{' '}
+        Desenvolvido por{" "}
         <a
-          href="https://edelsonphotography.com/"
+          href="https://linkedin.com/in/jgalmeida93"
           target="_blank"
           className="font-semibold hover:text-white"
           rel="noreferrer"
         >
-          Josh Edelson
+          Jonas Gabriel
         </a>
-        ,{' '}
-        <a
-          href="https://www.newrevmedia.com/"
-          target="_blank"
-          className="font-semibold hover:text-white"
-          rel="noreferrer"
-        >
-          Jenny Morgan
-        </a>
-        , and{' '}
-        <a
-          href="https://www.garysextonphotography.com/"
-          target="_blank"
-          className="font-semibold hover:text-white"
-          rel="noreferrer"
-        >
-          Gary Sexton
-        </a>{' '}
-        for the pictures.
       </footer>
     </>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
 
 export async function getStaticProps() {
   const results = await cloudinary.v2.search
     .expression(`folder:${process.env.CLOUDINARY_FOLDER}/*`)
-    .sort_by('public_id', 'desc')
+    .sort_by("public_id", "desc")
     .max_results(400)
-    .execute()
-  let reducedResults: ImageProps[] = []
+    .execute();
+  let reducedResults: ImageProps[] = [];
 
-  let i = 0
+  let i = 0;
   for (let result of results.resources) {
     reducedResults.push({
       id: i,
@@ -153,22 +138,22 @@ export async function getStaticProps() {
       width: result.width,
       public_id: result.public_id,
       format: result.format,
-    })
-    i++
+    });
+    i++;
   }
 
   const blurImagePromises = results.resources.map((image: ImageProps) => {
-    return getBase64ImageUrl(image)
-  })
-  const imagesWithBlurDataUrls = await Promise.all(blurImagePromises)
+    return getBase64ImageUrl(image);
+  });
+  const imagesWithBlurDataUrls = await Promise.all(blurImagePromises);
 
   for (let i = 0; i < reducedResults.length; i++) {
-    reducedResults[i].blurDataUrl = imagesWithBlurDataUrls[i]
+    reducedResults[i].blurDataUrl = imagesWithBlurDataUrls[i];
   }
 
   return {
     props: {
       images: reducedResults,
     },
-  }
+  };
 }
