@@ -5,8 +5,7 @@
     "build": "next build",
     "start": "next start",
     "commit": "cz",
-    "lint": "next lint",
-    "prepare": "husky install"
+    "lint": "next lint"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.4",
